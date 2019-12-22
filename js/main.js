@@ -1,7 +1,6 @@
 'use strict';
 
 var AMOUNT_OF_PHOTO = 25;
-// необходимо взять одно или два случайных предложений из представленных ниже:
 var COMMENTS = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -9,6 +8,15 @@ var COMMENTS = [
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
+];
+var DESCRIPTIONS = [
+  'Вот это была удача заснять такое',
+  'Воспоминания на всю жизнь в одном кадре',
+  'Тестим новую камеру! =)',
+  'А могло и получиться елси бы не ты!',
+  'Да будет свет сказал монтер!',
+  'В этот день мы не остались дома',
+  'Фотографы отдыхают'
 ];
 var COMMENTS_AMOUNT = {
   MIN: 1,
@@ -95,7 +103,9 @@ var createUserPhoto = function (i) {
     likes: getRandomInteger(LIKES_AMOUNT.MIN, LIKES_AMOUNT.MAX),
     comments: new Array(getRandomInteger(COMMENTS_AMOUNT.MIN, COMMENTS_AMOUNT.MAX))
                 .fill('')
-                .map(createComment)
+                .map(createComment),
+    description: DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length - 1)]
+
   };
 };
 
@@ -143,9 +153,37 @@ pictureElement.appendChild(renderPictures());
 var createBigPicture = function () {
   var firstPhoto = arrayOfPhotos[0];
   var bigPicture = document.querySelector('.big-picture');
-  var bigPictureImg = bigPicture.querySelector('.big-picture__img');
+  var bigPictureImg = bigPicture.querySelector('.big-picture__img img');
   var likesCount = bigPicture.querySelector('.likes-count');
   var commentsCount = bigPicture.querySelector('.comments-count');
   var socialComments = bigPicture.querySelector('.social__comments');
+  var socialComment = bigPicture.querySelector('.social__comment');
 
+  bigPictureImg.src = firstPhoto.url;
+  likesCount.textContent = firstPhoto.likes;
+  commentsCount.textContent = firstPhoto.likes;
+  bigPicture.querySelector('.social__caption').textContent = firstPhoto.description;
+  bigPicture.querySelectorAll('.social__comment').forEach(function (li) {
+    li.remove();
+  });
+  firstPhoto.comments.forEach(function (comment) {
+    socialComment.querySelector('.social__picture').src = comment.avatar;
+    socialComment.querySelector('.social__text').textContent = comment.massage;
+    socialComments.appendChild(socialComment);
+  });
 };
+
+createBigPicture();
+
+var pictureCancelBtn = document.querySelector('#picture-cancel');
+var bigPicture = document.querySelector('.big-picture');
+var pictureImg = document.querySelector('.picture__img');
+
+pictureCancelBtn.addEventListener('click', function () {
+  bigPicture.classList.add('hidden');
+});
+
+pictureImg.addEventListener('click', function () {
+  bigPicture.classList.remove('hidden');
+});
+
