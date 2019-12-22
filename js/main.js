@@ -128,7 +128,7 @@ var createArrayOfPhotos = function (amountOfPhotos) {
 };
 
 var arrayOfPhotos = createArrayOfPhotos(AMOUNT_OF_PHOTO);
-
+// Создает DOM элемент #picture
 var createPicture = function (picture) {
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
   var pictureDomElement = pictureTemplate.cloneNode(true);
@@ -149,7 +149,7 @@ var renderPictures = function () {
 };
 
 pictureElement.appendChild(renderPictures());
-
+// Функция создает элемент модального окна .big-picture из первой фотки
 var createBigPicture = function () {
   var firstPhoto = arrayOfPhotos[0];
   var bigPicture = document.querySelector('.big-picture');
@@ -178,12 +178,11 @@ createBigPicture();
 var pictureCancelBtn = document.querySelector('#picture-cancel');
 var bigPicture = document.querySelector('.big-picture');
 var pictureImg = document.querySelector('.picture__img');
-
+// Вешеаем событие клик на крестик для закрытия окна
 pictureCancelBtn.addEventListener('click', function () {
   bigPicture.classList.add('hidden');
 });
-
+// Вешаем событие клик на первую фотку что бы открыть модалку
 pictureImg.addEventListener('click', function () {
   bigPicture.classList.remove('hidden');
 });
-
